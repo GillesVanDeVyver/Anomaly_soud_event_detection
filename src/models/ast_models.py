@@ -119,8 +119,8 @@ class ASTModel(nn.Module):
                 raise ValueError('currently model pretrained on only audioset is not supported, please set imagenet_pretrain = True to use audioset pretrained model.')
             if model_size != 'base384':
                 raise ValueError('currently only has base384 AudioSet pretrained model.')
-            #device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-            device=torch.device("cpu")
+            device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+            #device=torch.device("cuda")
             if os.path.exists('../../../pretrained_models/audioset_10_10_0.4593.pth') == False:
                 # this model performs 0.4593 mAP on the audioset eval set
                 audioset_mdl_url = 'https://www.dropbox.com/s/cv4knew8mvbrnvq/audioset_0.4593.pth?dl=1'
