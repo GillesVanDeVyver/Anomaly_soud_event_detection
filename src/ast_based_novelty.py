@@ -4,7 +4,7 @@ print(parentdir)
 sys.path.append(parentdir)
 import models
 import torch
-import preprocessing
+import common
 import pandas as pd
 
 
@@ -30,7 +30,7 @@ class adast(): # anomaly detection ast
 
 
     def get_ast_embedding_single_file(self,file_location):
-        log_mel = preprocessing.convert_to_log_mel(file_location,num_mel_bins=self.num_mel_bins,target_length=self.input_tdim)
+        log_mel = common.convert_to_log_mel(file_location, num_mel_bins=self.num_mel_bins, target_length=self.input_tdim)
         input = torch.unsqueeze(log_mel, dim=0)
         #input = torch.rand([1, self.input_tdim, 128])
         output = self.audio_model(input)
@@ -53,6 +53,24 @@ def load_embeddings(input_directory):
                 tensors_in_domain = torch.cat((tensors_in_domain, loaded_tensor))
     px = pd.DataFrame(tensors_in_domain.detach().numpy())
     return px
+
+def generate_lables_and_pd_dataframe(input_directory):
+    tensors_in_domain = None
+    lables = []
+    for filename in os.listdir(input_directory):
+        if filename.endswith(".pt"):
+            if "anomaly" in filename:
+                lables.append(-1)
+            else:
+                lables.append(1)
+            file_location = input_directory + "/" + filename
+            loaded_tensor = torch.load(file_location)
+            if tensors_in_domain == None:
+                tensors_in_domain = loaded_tensor
+            else:
+                tensors_in_domain = torch.cat((tensors_in_domain, loaded_tensor))
+    px = pd.DataFrame(tensors_in_domain.detach().numpy())
+    return lables,px
 
 
 # generate intermediate tensors and store as .pt files
@@ -81,22 +99,21 @@ for machine in os.listdir(base_directory):
 
 #combine individual tensors stored in .pt to one pandas dataframe and save as pkl file => not enough RAM
 """
-skip_count=0
 embedding_base_directory="../dev_data_embeddings/"
 for machine in os.listdir(embedding_base_directory):
     if os.path.isdir(embedding_base_directory+"/"+machine):
         print(machine)
-        if skip_count>=0:
+        for domain in os.listdir(embedding_base_directory + "/" + machine):
             machine_dir=embedding_base_directory + machine
-            train_directory = machine_dir + "/" + "train"
-            X=load_embeddings(train_directory)
-            pickle_location=machine_dir+"/"+"dataframe.pkl"
-            X.to_pickle(pickle_location)
-            print(X.shape)
-        skip_count+=1
+            input_directory = embedding_base_directory + machine + "/" + domain
+            if os.path.isdir(input_directory):
+                X=load_embeddings(input_directory)
+                pickle_location=input_directory+"/"+"dataframe.pkl"
+                X.to_pickle(pickle_location)
+                print(X.shape)
+        print(machine+" "+domain+" done")
+
 """
-
-
 
 
 
