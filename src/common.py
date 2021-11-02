@@ -2,7 +2,7 @@ import os
 
 import torch
 import torchaudio
-
+import matplotlib.pyplot as plt
 
 def convert_to_log_mel(path_to_file, num_mel_bins=128, target_length=1024):
     waveform, sample_rate = torchaudio.load(path_to_file)
@@ -54,3 +54,19 @@ def calculate_pAUC_approximation(FPR_TRPs,p=1):
     fb=p
     auc_approx = auc_approx + (b - a) * (fa + fb) / 2
     return auc_approx/(p**2)
+
+def generate_ROC_curve(FPR_TRPs,output_location):
+    x_axis=[0]
+    y_axis=[0]
+    for pair in FPR_TRPs:
+        x_axis.append(pair[0])
+        y_axis.append(pair[1])
+    x_axis.append(1)
+    y_axis.append(1)
+    plt.plot(x_axis,y_axis)
+    plt.plot([0,1],[0,1])
+    plt.xlabel("False positive rate")
+    plt.ylabel("True positive rate")
+    plt.savefig(output_location)
+    plt.close()
+

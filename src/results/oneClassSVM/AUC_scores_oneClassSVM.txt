@@ -1,0 +1,14 @@
+fan: AUC source test=0.4961777777777777, pAUC source test=0.6133333333333333
+ 	 AUC target test=0.4993888888888889, pAUC target test=0.701111111111111
+pump: AUC source test=0.5064277777777777, pAUC source test=0.4955555555555556
+ 	 AUC target test=0.48538333333333333, pAUC target test=0.5
+ToyCar: AUC source test=0.47964444444444443, pAUC source test=0.38055555555555554
+ 	 AUC target test=0.4800944444444443, pAUC target test=0.5
+valve: AUC source test=0.5062777777777777, pAUC source test=0.681111111111111
+ 	 AUC target test=0.5188333333333335, pAUC target test=0.45555555555555555
+gearbox: AUC source test=0.5131838799677614, pAUC source test=0.4689735104514794
+ 	 AUC target test=0.5367248177273864, pAUC target test=0.6574032305604555
+ToyTrain: AUC source test=0.48420555555555544, pAUC source test=0.4333333333333333
+ 	 AUC target test=0.5135166666666665, pAUC target test=0.5
+slider: AUC source test=0.5346885143097354, pAUC source test=1.1200219142587393
+ 	 AUC target test=0.5464282192788815, pAUC target test=0.9137122884473877
