@@ -78,6 +78,7 @@ def generate_lables_and_pd_dataframe(input_directory,format="one_class_svm"):
     px = pd.DataFrame(tensors_in_domain.detach().numpy())
     return lables,px
 
+adast_mdl = adast()
 
 # generate intermediate tensors and store as .pt files
 """
