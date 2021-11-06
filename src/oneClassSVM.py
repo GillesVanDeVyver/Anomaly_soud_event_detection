@@ -86,7 +86,6 @@ for machine in os.listdir(embedding_base_directory):
             "\n")
 
     csv_row=[machine,auc_approx_source_test,pauc_approx_source_test,auc_approx_target_test,pauc_approx_target_test]
-
     csv_writer.writerow(csv_row)
 
     AUC_curve_output_location=result_dir+"AUC_target" +str(machine)

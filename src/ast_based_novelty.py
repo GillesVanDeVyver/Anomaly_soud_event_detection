@@ -54,15 +54,21 @@ def load_embeddings(input_directory):
     px = pd.DataFrame(tensors_in_domain.detach().numpy())
     return px
 
-def generate_lables_and_pd_dataframe(input_directory):
+def generate_lables_and_pd_dataframe(input_directory,format="one_class_svm"):
     tensors_in_domain = None
     lables = []
     for filename in os.listdir(input_directory):
         if filename.endswith(".pt"):
             if "anomaly" in filename:
-                lables.append(-1)
+                if format=="one_class_svm":
+                    lables.append(-1)
+                elif format=="autoencoder":
+                    lables.append(1)
             else:
-                lables.append(1)
+                if format=="one_class_svm":
+                    lables.append(1)
+                elif format=="autoencoder":
+                    lables.append(0)
             file_location = input_directory + "/" + filename
             loaded_tensor = torch.load(file_location)
             if tensors_in_domain == None:

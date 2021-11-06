@@ -53,7 +53,7 @@ def calculate_pAUC_approximation(FPR_TRPs,p=1):
     b=p
     fb=p
     auc_approx = auc_approx + (b - a) * (fa + fb) / 2
-    return auc_approx/(p**2)
+    return auc_approx/(p)
 
 def generate_ROC_curve(FPR_TRPs,output_location):
     x_axis=[0]
@@ -61,6 +61,21 @@ def generate_ROC_curve(FPR_TRPs,output_location):
     for pair in FPR_TRPs:
         x_axis.append(pair[0])
         y_axis.append(pair[1])
+    x_axis.append(1)
+    y_axis.append(1)
+    plt.plot(x_axis,y_axis)
+    plt.plot([0,1],[0,1])
+    plt.xlabel("False positive rate")
+    plt.ylabel("True positive rate")
+    plt.savefig(output_location)
+    plt.close()
+
+def generate_ROC_curve(FPR,TRP,output_location):
+    x_axis=[0]
+    y_axis=[0]
+    for i in range(len(FPR)):
+        x_axis.append(FPR[i])
+        y_axis.append(TRP[i])
     x_axis.append(1)
     y_axis.append(1)
     plt.plot(x_axis,y_axis)
